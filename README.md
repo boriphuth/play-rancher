@@ -36,6 +36,8 @@ $ docker -v
 $ sudo docker run --name Rancher_K8s -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
 $ docker ps -a
 
+https://rancher.com/docs/rancher/v2.x/en/installation/other-installation-methods/single-node-docker/proxy/
+
 docker run -d --restart=unless-stopped \
 -p 80:80 -p 443:443 \
 -e HTTP_PROXY="http://webproxy.pln.corp.services:80" \
