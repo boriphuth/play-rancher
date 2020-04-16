@@ -36,6 +36,9 @@ $ docker -v
 $ sudo docker run --name Rancher_K8s -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
 $ docker ps -a
 
+sudo swapoff -a
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
 https://rancher.com/docs/rancher/v2.x/en/installation/other-installation-methods/single-node-docker/proxy/
 
 docker run -d --restart=unless-stopped \
@@ -52,4 +55,22 @@ https://stackoverflow.com/questions/48290551/how-to-fix-openshift-pod-start-fail
 $ curl https://gist.githubusercontent.com/superseb/2cf186726807a012af59a027cb41270d/raw/eaa2d235e7693c2d1c5a2a916349410274bb95a9/cleanup.sh > ./cleanup.sh && chmod a+x ./cleanup.sh && sudo ./cleanup.sh
 
 $ sudo systemctl stop docker && sudo rm -rf /var/lib/docker && sudo systemctl start docker && sudo systemctl status docker
+
 $ docker rm -vf $(docker ps -a -q) && docker rmi -f $(docker images -a -q)
+
+
+## an error no space left on device
+https://success.docker.com/article/no-space-left-on-device-error
+```bash
+du -d1 -h /var/lib/docker/containers | sort -h
+du -d1 -h /var/lib/docker/overlay2   | sort -h
+
+#to remove all log files
+find /var/lib/docker/containers/ -type f -name "*.log" -delete
+
+find /var/lib/docker/overlay2/ -type f -name "*.log" -delete
+
+cat /dev/null > /var/lib/docker/containers/container_id/container_log_name
+
+sudo sh -c "cat /dev/null > /var/lib/docker/containers/container_id/container_log_name" 
+```
